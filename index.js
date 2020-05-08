@@ -6,16 +6,25 @@ import {fifaData} from "./fifa.js"
 //* Task 1: Investigate the data above. Practice accessing data by console.log-ing the following pieces of data 
 
 //? (a) Home Team name for 2014 world cup final 
-    //! console.log(fifaData[828]["Home Team Name"])
+  
 //? (b) Away Team name for 2014 world cup final*/
-    //! console.log(fifaData[828]["Away Team Name"])
-//? (c) Home Team goals for 2014 world cup final
-    //! console.log(fifaData[828]["Home Team Goals"])
-//? (d) Away Team goals for 2014 world cup final
-    //! console.log(fifaData[828]["Away Team Goals"])
-//? (e) Winner of 2014 world cup final */
-    //! console.log(fifaData[828]["Win conditions"])
 
+//? (c) Home Team goals for 2014 world cup final
+    
+//? (d) Away Team goals for 2014 world cup final
+    
+//? (e) Winner of 2014 world cup final */
+    
+
+     const game = fifaData.filter( el => {
+        if( el.Year == 2014 && el.Stage == "Final"){
+            console.log('Home Team ' + el["Home Team Name"])
+            console.log('Away Team ' + el["Away Team Name"])
+            console.log('Home Team Goals ' + el["Home Team Goals"])
+            console.log('Away Team Goals ' + el["Away Team Goals"])
+            console.log('Winner ' + el["Win conditions"])
+        }
+    })
 
 
 
@@ -109,7 +118,7 @@ function getWinnersByYear(winners,years) {
 
 function getWinTeams(array){
     let data = getFinals(array)
-    console.log(data)
+    
     let worldCupWinners = []
     
     data.map( team => {
@@ -133,14 +142,14 @@ function getWinTeams(array){
 
 }
 
-//! console.log(getWinTeams(fifaData))
+ //! console.log(getWinTeams(fifaData))
 
 
 
 
 function getCountryWins(data,teamInitials) {
     const teams = data(fifaData)
-    
+    //const winningCount = teams.reduce((total, team) =>  team.teamInital == teamInitials ? total+1 : total, 0)
     const winningCount = teams.reduce((total, team) =>  team.teamInital == teamInitials ? total+1 : total, 0)
      
 
@@ -149,7 +158,7 @@ function getCountryWins(data,teamInitials) {
 
 
 
-//!   console.log(getCountryWins(getWinTeams, 'BRA')) 
+  //! console.log(getCountryWins(getWinTeams, 'BRA')) 
 
 
 
@@ -157,28 +166,20 @@ function getCountryWins(data,teamInitials) {
 /* Task 9: Write a function called `getAverageGoals` that accepts a parameter `data` and returns the the average number 
 of home team goals and away team goals scored per match (Hint: use .reduce and do this in 2 steps) */
 
-// const test = [1, 2, 3, 23, 4, 5, 2134, 5] // 272.125
+
 
 function getAverageGoals(data) {
-    const homeGames = data.map( goals => goals["Home Team Goals"])
-    const awayGames = data.map( goals => goals["Away Team Goals"])
-    const  reducer = (total, currentValue) => total + currentValue
+
+        const home = data.reduce( (acc, curr ) => curr["Home Team Goals"] ? acc + curr["Home Team Goals"] : acc, 0 ) / data.length
+        const away = data.reduce( (acc, curr ) => curr["Away Team Goals"] ? acc + curr["Away Team Goals"] : acc, 0 ) / data.length
+        
+        return `The Average goals are: Home Games ${home.toFixed(2)} Away Games: ${away.toFixed(2)}`
+       
     
-    let homeGamesReduce = homeGames.reduce(reducer) / homeGames.length
-        homeGamesReduce = homeGamesReduce.toFixed(2);
-    let awayGamesReduce = awayGames.reduce(reducer) / homeGames.length
-        awayGamesReduce = awayGamesReduce.toFixed(2);
-
-    return `The Average goals are: 
-            Home Games ${homeGamesReduce} 
-            Away Games: ${awayGamesReduce}`
-     
-    
-
-
 } 
 
-//! console.log(getAverageGoals(fifaData))
+
+ //! console.log(getAverageGoals(fifaData))
 
 
 /// STRETCH 🥅 //
@@ -187,30 +188,25 @@ function getAverageGoals(data) {
 returns the team with the most goals score per appearance (average goals for) in the World Cup finals */
 
 function getGoals(callback) {
-const data = callback(fifaData)
-console.log(data)
-
-    const eachGame= []
     
-    data.map( element => {
-       if(element["Away Team Goals"]  && element["Home Team Goals"] ){
-           eachGame.push(
-               {
-                awayTeam: element["Away Team Name"],
-                awayTeamGoals: element["Away Team Goals"],
-                homeTeam: element["Home Team Name"], 
-                homeTeamGoals: element["Home Team Goals"], 
-                date: element["Datetime"]
-            })
-       }
-    })
+}
 
-   console.log(eachGame)
-   eachGame.filter(e => eachGame.awayTeamGoals)
-   
-};
+ 
 
- console.log(getGoals(getFinals))
+
+
+
+
+
+
+// console.log(getGoals(getFinals))
+
+
+
+
+
+
+
 
 
 /* STRETCH 2: Write a function called badDefense() that accepts a parameter `data` and calculates the team with the most goals
@@ -223,34 +219,4 @@ function badDefense(/* code here */) {
 };
 
 badDefense();
-
-/* If you still have time, use the space below to work on any stretch goals of your chosing as listed in the README file. */
-
-
-
-// function getCountryWins(data,teamInitials) {
-//     //CallBack Data
-//    const teams = data(fifaData)
-  
-//    const teamWon = [] //World cup winners
-
-//    // For loop to get the name, inital and years of the world cup winner.
-//    for(let i = 0; i < teams.length; i++){
-//        if(teams[i]["Home Team Goals"] >= teams[i]["Away Team Goals"] ){
-//             teamWon.push(
-//                 {  
-//                    teamName: teams[i]["Home Team Name"],
-//                    teamInital: teams[i]["Home Team Initials"],
-//                    yearWon: teams[i]["Year"]
-//                })
-//        }else {
-//            teamWon.push(
-//                {   
-//                    teamName: teams[i]["Away Team Name"],
-//                    teamInital: teams[i]["Away Team Initials"],
-//                    yearWon: teams[i]["Year"]
-//                })
-//        }
-//    }
-
-// }
+ 
